@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ProductCard from "./productCart";
+import ProductCard from "./allproductsCard";
 import Product1 from "../images/product1.jpg";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Badge from "@mui/material/Badge";
 import ShoppingCartSharpIcon from "@mui/icons-material/ShoppingCartSharp";
-import { Link } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import Product2 from "../images/product2.jpg";
 import Product3 from "../images/product3.jpg";
 import { Grid } from "@mui/material";
@@ -21,16 +21,18 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 export default function Home() {
-  
   var list = [Product1, Product2, Product3];
   const [allproducts, setProducts] = useState([]);
   const [itemInCart, setCartNumber] = useState(0);
-  const [open, setOpen] = React.useState(false);
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [form, setForm] = useState({
+    EuserName: "",
+  });
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
   };
-  
+
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -39,33 +41,46 @@ export default function Home() {
   };
 
   async function addToCart(productName) {
-    const res = await fetch(`/addcart/${productName}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
-    if (res.status === 200) {
-      setCartNumber(data.products.length);
-      setOpen(true);
-    }
-  }
-  useEffect(() => {
-    async function ifUser() {
-      const res = await fetch(`/auth`, {
-        method: "GET",
+    console.log(form);
+    if (form !== "") {
+      const res = await fetch(`/addcart/${productName}`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
+        body: JSON.stringify(form),
       });
       const data = await res.json();
       if (res.status === 200) {
-        
         setCartNumber(data.products.length);
+        setOpen(true);
+      }
+    } else {
+      Navigate("/login");
+    }
+  }
+
+  useEffect(() => {
+    async function ifUser() {
+      try {
+        const res = await fetch(`/auth`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        const data = await res.json();
+        if (res.status === 200) {
+          setCartNumber(data.products.length);
+          setForm({ EuserName: data.userName });
+        }
+      } catch (err) {
+        setCartNumber(0);
+        setForm("");
       }
     }
+
     async function getProducts() {
       const res = await fetch("/getProducts", {
         method: "GET",
@@ -79,7 +94,7 @@ export default function Home() {
     }
     ifUser();
     getProducts();
-  },[allproducts]);
+  }, [allproducts, itemInCart]);
   return (
     <>
       <Stack spacing={2} sx={{ width: "100%" }}>
@@ -112,11 +127,11 @@ export default function Home() {
             </Typography>
 
             <div>
-              <Link to="/cart">
+              <NavLink to="/cart">
                 <Badge badgeContent={itemInCart}>
                   <ShoppingCartSharpIcon color="danger" />
                 </Badge>
-              </Link>
+              </NavLink>
             </div>
           </Toolbar>
         </AppBar>
@@ -126,11 +141,17 @@ export default function Home() {
         zIndex="2222"
         onClose={toggleDrawer}
         direction="left"
-        width="300"
+        width="400"
         className="bla bla bla"
         duration={400}
       >
-        <h1>sju3hhuwhewej</h1>
+        <div className="drawer-content">
+          <h3>KaehsurKart</h3>
+          <NavLink to="/">home</NavLink> <br />
+          <NavLink to="/cart">Cart</NavLink> <br />
+          <NavLink to="/login">Login</NavLink> <br />
+          <NavLink to="/admin">admin</NavLink> <br />{" "}
+        </div>
       </Drawer>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container columnGap={2}>

@@ -24,8 +24,8 @@ export default function Register() {
     });
     const data = await res.json();
     if (res.status === 200) {
-      window.alert("user logged in succesfully");
-      navigate("/");
+      window.alert("user registered in succesfully");
+      navigate("/login");
     } else {
       window.alert(data.message);
     }

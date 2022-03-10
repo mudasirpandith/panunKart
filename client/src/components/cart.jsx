@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ProductCard from "./productCart";
+import ProductsInCartCard from "./productsInCartCard";
 import Product1 from "../images/product1.jpg";
 import Product2 from "../images/product2.jpg";
 import Product3 from "../images/product3.jpg";
@@ -11,7 +11,6 @@ export default function Cart() {
 
   var list = [Product1, Product2, Product3];
   const [userData, setUserData] = useState([]);
-  // const [total, setTotal] = useState(0);
   const total = 1230;
   useEffect(() => {
     async function getUserData() {
@@ -29,13 +28,14 @@ export default function Cart() {
           navigate("/login");
         } else {
           setUserData(data);
+          
         }
       } catch (err) {
         navigate("/login");
       }
     }
     getUserData();
-  },[userData.length]);
+  }, [userData.length]);
 
   return userData.products ? (
     <>
@@ -52,7 +52,7 @@ export default function Cart() {
               return (
                 <>
                   <Grid xs={12} xl={2}>
-                    <ProductCard
+                    <ProductsInCartCard
                       productName={prod.product.productName}
                       productDes={prod.product.productDes}
                       productPrice={prod.product.productPrice}

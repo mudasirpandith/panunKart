@@ -27,11 +27,11 @@ export default function ProductCard(props) {
             <p
               style={{
                 color: "red",
-                fontWeight:"100",
+                fontWeight: "100",
                 textDecorationLine: "line-through",
               }}
             >
-              Rs. {props.productPrice+200}
+              Rs. {props.productPrice + 200}
             </p>
             <p style={{ color: "green" }}>
               {" "}
@@ -41,9 +41,10 @@ export default function ProductCard(props) {
           </Typography>{" "}
         </CardContent>
       </CardActionArea>
-      <Button onClick={handleClick}>
-        <ShoppingBasketRoundedIcon /> &nbsp; Add To Cart
+      <Button onClick={handleClick} startIcon={<ShoppingBasketRoundedIcon />}>
+        Add To Cart
       </Button>
+      
     </Card>
   );
 }
