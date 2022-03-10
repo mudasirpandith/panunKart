@@ -4,6 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea } from "@mui/material";
+import ShoppingBasketRoundedIcon from "@mui/icons-material/ShoppingBasketRounded";
 export default function ProductCard(props) {
   function handleClick() {
     props.onClick(props.productName);
@@ -23,11 +24,26 @@ export default function ProductCard(props) {
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {props.productDes} <br />
-            <h2>Rs.{props.productPrice}</h2>
+            <p
+              style={{
+                color: "red",
+                fontWeight:"100",
+                textDecorationLine: "line-through",
+              }}
+            >
+              Rs. {props.productPrice+200}
+            </p>
+            <p style={{ color: "green" }}>
+              {" "}
+              <strong> Rs. {props.productPrice} </strong>
+              only
+            </p>
           </Typography>{" "}
         </CardContent>
       </CardActionArea>
-      <Button onClick={handleClick}>Add To Cart</Button>
+      <Button onClick={handleClick}>
+        <ShoppingBasketRoundedIcon /> &nbsp; Add To Cart
+      </Button>
     </Card>
   );
 }

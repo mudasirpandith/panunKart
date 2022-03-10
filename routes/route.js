@@ -68,8 +68,7 @@ Route.post("/login", async (req, res) => {
 Route.post("/addcart/:productName", async (req, res) => {
   const productName = req.params.productName;
   console.log(productName);
-  const findUser = await user.findOne({ userName: "Abc" });
-
+  const findUser = await user.findOne({ userName: "Mudasir" })
   const productFound = await products.findOne({ productName: productName });
   findUser.products = findUser.products.concat({ product: productFound });
   findUser.save();

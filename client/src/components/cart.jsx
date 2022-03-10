@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "./productCart";
 import Product1 from "../images/product1.jpg";
-
 import Product2 from "../images/product2.jpg";
 import Product3 from "../images/product3.jpg";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +11,8 @@ export default function Cart() {
 
   var list = [Product1, Product2, Product3];
   const [userData, setUserData] = useState([]);
-  const [total, setTotal] = useState(0);
+  // const [total, setTotal] = useState(0);
+  const total = 1230;
   useEffect(() => {
     async function getUserData() {
       try {
@@ -35,13 +35,13 @@ export default function Cart() {
       }
     }
     getUserData();
-  }, [userData.length]);
-  
-    
-  
+  },[userData.length]);
+
   return userData.products ? (
     <>
-      <h1>Hello im your Cart</h1>
+      <p>
+        Hello <strong> {userData.userName} </strong> ! Welcome to your Cart{" "}
+      </p>
 
       <Box sx={{ flexGrow: 1 }}>
         <Grid container columnGap={2} rowGap={2}>
@@ -64,7 +64,7 @@ export default function Cart() {
             })}
         </Grid>
       </Box>
-    
+
       <h1>
         Total Amount : <strong> {total} </strong>
       </h1>

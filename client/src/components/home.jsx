@@ -14,28 +14,23 @@ import Product3 from "../images/product3.jpg";
 import { Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { useNavigate } from "react-router-dom";
 import { Drawer } from "@mui/material";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 export default function Home() {
-  const navigate = useNavigate();
+  
   var list = [Product1, Product2, Product3];
-  const [products, setProducts] = useState([]);
-  const [userData, setUserData] = useState([]);
+  const [allproducts, setProducts] = useState([]);
   const [itemInCart, setCartNumber] = useState(0);
   const [open, setOpen] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
   };
-  const toggleDrawerBack = () => {
-    setIsOpen((prevState) => !prevState);
-  };
+  
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -44,7 +39,7 @@ export default function Home() {
   };
 
   async function addToCart(productName) {
-    const res = await fetch(`http://localhost:4000/addcart/${productName}`, {
+    const res = await fetch(`/addcart/${productName}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -67,25 +62,24 @@ export default function Home() {
       });
       const data = await res.json();
       if (res.status === 200) {
-        setUserData(data);
+        
         setCartNumber(data.products.length);
       }
     }
     async function getProducts() {
-      const res = await fetch("http://localhost:4000/getProducts", {
+      const res = await fetch("/getProducts", {
         method: "GET",
       });
       const data = await res.json();
       if (res.status === 200) {
         setProducts(data);
-        console.log(products);
       } else {
         window.alert(data);
       }
     }
     ifUser();
     getProducts();
-  }, [products.length]);
+  },[allproducts]);
   return (
     <>
       <Stack spacing={2} sx={{ width: "100%" }}>
@@ -140,7 +134,7 @@ export default function Home() {
       </Drawer>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container columnGap={2}>
-          {products.map((product, index) => {
+          {allproducts.map((product, index) => {
             return (
               <>
                 <Grid xs={12} xl={2}>
