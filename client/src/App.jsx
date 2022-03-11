@@ -1,10 +1,11 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Home from "./components/home";
-import Cart from "./components/cart";
+import Home from "./components/Pages/home";
+import Cart from "./components/Pages/cart";
 import Login from "./components/user Cred/login";
 import Register from "./components/user Cred/register";
 import Admin from "./components/admin/admin";
+require('./App.css')
 export default function App() {
   return (
     <>

@@ -10,7 +10,7 @@ export default function ProductCard(props) {
     props.onClick(props.productName);
   }
   return (
-    <Card>
+    <Card style={{height:"200"}}>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -22,29 +22,29 @@ export default function ProductCard(props) {
           <Typography gutterBottom variant="h5" component="div">
             {props.productName}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+         
             {props.productDes} <br />
             <p
               style={{
                 color: "red",
                 fontWeight: "100",
                 textDecorationLine: "line-through",
+                display: "inline-block",
               }}
             >
               Rs. {props.productPrice + 200}
             </p>
-            <p style={{ color: "green" }}>
+            <p style={{ color: "green", display: "inline-block",paddingLeft:"10px" }}>
               {" "}
               <strong> Rs. {props.productPrice} </strong>
               only
             </p>
-          </Typography>{" "}
+         
         </CardContent>
       </CardActionArea>
       <Button onClick={handleClick} startIcon={<ShoppingBasketRoundedIcon />}>
         Add To Cart
       </Button>
-      
     </Card>
   );
 }

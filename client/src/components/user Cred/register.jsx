@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import TextField from "@mui/material/TextField";
+import { NavLink } from "react-router-dom";
+import { Button } from "@mui/material";
 export default function Register() {
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -33,37 +36,50 @@ export default function Register() {
 
   return (
     <>
-      Register
-      <form style={{ margin: "20px" }} onSubmit={onsubmit} method="post">
-        <input
-          className="form-control"
-          type="text"
-          name="userName"
-          value={form.userName}
-          placeholder="userName"
-          id="userName"
-          onChange={handleChange}
-        />
-        <input
-          className="form-control"
-          type="text"
-          name="userPhone"
-          value={form.userPhone}
-          placeholder="userPhone"
-          id="userPhone"
-          onChange={handleChange}
-        />
-        <input
-          className="form-control"
-          type="password"
-          name="password"
-          placeholder="password"
-          value={form.password}
-          id="password"
-          onChange={handleChange}
-        />
-        <input type="submit" value="Submit" />
-      </form>
+      {" "}
+      <div id="login">
+        <h1>Register</h1>
+        <form style={{ margin: "20px" }} onSubmit={onsubmit} method="post">
+          <TextField
+            id="standard-basic"
+            label="Username"
+            type="text"
+            name="userName"
+            value={form.userName}
+            placeholder="username"
+            onChange={handleChange}
+          />
+          <br />
+          <br />
+          <TextField
+            id="standard-basic"
+            label="Phone Number"
+            type="tel"
+            name="userPhone"
+            value={form.userPhone}
+            placeholder="userPhone"
+            onChange={handleChange}
+          />
+          <br />
+          <br />
+          <TextField
+            id="standard-basic"
+            label="Password"
+            type="password"
+            name="password"
+            placeholder="password"
+            value={form.password}
+            onChange={handleChange}
+          />
+          <br />
+          <br />
+          <Button type="submit" variant="contained" color="success">
+            {" "}
+            Register
+          </Button> <br />
+          <NavLink to="/login">Login</NavLink>
+        </form>
+      </div>
     </>
   );
 }

@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
+import CloseIcon from "@mui/icons-material/Close";
+import TextField from "@mui/material/TextField";
+import { NavLink } from "react-router-dom";
+require("./cred.css");
 export default function Login() {
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -24,7 +29,7 @@ export default function Login() {
     const data = await res.json();
     if (res.status === 200) {
       window.alert("user logged in succesfully");
-      navigate("/cart");
+      navigate("/");
     } else {
       window.alert(data.message);
       navigate("/login");
@@ -33,28 +38,45 @@ export default function Login() {
 
   return (
     <>
-      Login
-      <form style={{ margin: "20px" }} onSubmit={onsubmit} method="post">
-        <input
-          className="form-control"
-          type="text"
-          name="userName"
-          value={form.userName}
-          placeholder="userName"
-          id="userName"
-          onChange={handleChange}
-        />
-        <input
-          className="form-control"
-          type="password"
-          name="password"
-          placeholder="password"
-          value={form.password}
-          id="password"
-          onChange={handleChange}
-        />
-        <input type="submit" value="Submit" />
-      </form>
+      {" "}
+      <div id="login">
+        <h1>Login</h1>
+        <form style={{ margin: "20px" }} onSubmit={onsubmit} method="post">
+          <TextField
+            id="standard-basic"
+            label="Username"
+            name="userName"
+            value={form.userName}
+            placeholder="Username"
+            onChange={handleChange}
+            variant="outlined"
+          />
+          <br /> <br />
+          <TextField
+            label="Password"
+            id="standard-basic"
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={handleChange}
+            variant="outlined"
+          />{" "}
+          <br /> <br />
+          <Button variant="contained" color="success" type="submit">
+            Log In
+          </Button>{" "}
+          <br />
+          <NavLink to="/register">Create account</NavLink>
+          <NavLink to="/">
+            <Button endIcon={<CloseIcon />}>
+              {" "}
+              <p>Cancel</p>{" "}
+            </Button>
+          </NavLink>
+        </form>{" "}
+        <br />
+      </div>
     </>
   );
 }
