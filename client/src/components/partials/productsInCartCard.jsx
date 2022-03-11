@@ -30,11 +30,18 @@ export default function ProductsInCartCard(props) {
                 color: "red",
                 fontWeight: "100",
                 textDecorationLine: "line-through",
+                display: "inline-block",
               }}
             >
               Rs. {props.productPrice + 200}
             </p>
-            <p style={{ color: "green" }}>
+            <p
+              style={{
+                color: "green",
+                display: "inline-block",
+                paddingLeft: "10px",
+              }}
+            >
               {" "}
               <strong> Rs. {props.productPrice} </strong>
               only
@@ -43,9 +50,12 @@ export default function ProductsInCartCard(props) {
         </CardContent>
       </CardActionArea>
       <Button
+        variant="outlined"
+        color="error"
         onClick={handleClick}
         startIcon={<RemoveShoppingCartRoundedIcon />}
-      >Remove From Cart
+      >
+        Remove From Cart
       </Button>
     </Card>
   );

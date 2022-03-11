@@ -1,6 +1,5 @@
 const express = require("express");
 const products = require("../Schema/product");
-
 const Route = express.Router();
 const user = require("../Schema/user");
 require("../db/conn");
@@ -82,7 +81,45 @@ Route.post("/addcart/:productName", async (req, res) => {
     res.status(200).json(findUser);
   }
 });
+Route.get("/getSingleproduct/:productName", async (req, res) => {
+  const productname = req.params.productName;
+  const productDetail = await products.find({ productName: productname });
+  if (productDetail) {
+    res.status(200).json(productDetail);
+  } else {
+    res.status(400).json({ message: "Product Loadinng error" });
+  }
+});
 
+Route.post("/add/product", async (req, res) => {
+  const {
+    productName,
+    productDes,
+    productLongDes,
+    productID,
+    productCompany,
+    productPrice,
+    productCategory,
+    productImage,
+  } = req.body;
+
+  const newproduct = new products({
+    productName,
+    productDes,
+    productLongDes,
+    productID,
+    productCompany,
+    productPrice,
+    productCategory,
+    productImage,
+  });
+  const productAdded = await newproduct.save();
+  if (productAdded) {
+    res.status(200).json({ message: "Product Added" });
+  } else {
+    res.status(400).json({ message: "Product adding Failed" });
+  }
+});
 Route.get("/logout", (req, res) => {
   res.clearCookie();
 });

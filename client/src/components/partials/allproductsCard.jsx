@@ -10,7 +10,7 @@ export default function ProductCard(props) {
     props.onClick(props.productName);
   }
   return (
-    <Card style={{height:"200"}}>
+    <Card style={{ height: "200" }}>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -19,32 +19,33 @@ export default function ProductCard(props) {
           alt="green iguana"
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography gutterBottom variant="h6" component="div">
             {props.productName}
           </Typography>
-         
-            {props.productDes} <br />
-            <p
-              style={{
-                color: "red",
-                fontWeight: "100",
-                textDecorationLine: "line-through",
-                display: "inline-block",
-              }}
-            >
-              Rs. {props.productPrice + 200}
-            </p>
-            <p style={{ color: "green", display: "inline-block",paddingLeft:"10px" }}>
-              {" "}
-              <strong> Rs. {props.productPrice} </strong>
-              only
-            </p>
-         
+          {props.productDes} <br />
+          <p
+            style={{
+              color: "red",
+              fontWeight: "100",
+              textDecorationLine: "line-through",
+              display: "inline-block",
+            }}
+          >
+            Rs. {props.productPrice + 200}
+          </p>
+          <p
+            style={{
+              color: "green",
+              display: "inline-block",
+              paddingLeft: "10px",
+            }}
+          >
+            {" "}
+            <strong> Rs. {props.productPrice} </strong>
+            only
+          </p>
         </CardContent>
       </CardActionArea>
-      <Button onClick={handleClick} startIcon={<ShoppingBasketRoundedIcon />}>
-        Add To Cart
-      </Button>
     </Card>
   );
 }

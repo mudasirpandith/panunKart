@@ -3,9 +3,20 @@ const mongoose = require("mongoose");
 const productSchema = new mongoose.Schema({
   productName: String,
   productDes: String,
+  productLongDes: String,
   productID: String,
-  productPrice:Number,
+  productCompany: String,
+  productPrice: Number,
+  productCategory: String,
   productImage: String,
+  reviews: [
+    {
+      review: {
+        userName: String,
+        rev: String,
+      },
+    },
+  ],
 });
 
 const products = mongoose.model("Products", productSchema);

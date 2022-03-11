@@ -16,11 +16,7 @@ export default function Cart() {
   var list = [Product1, Product2, Product3];
   const [userData, setUserData] = useState([]);
 
-  const [isOpen, setIsOpen] = useState(false);
- 
-  const toggleDrawer = () => {
-    setIsOpen((prevState) => !prevState);
-  };
+
   useEffect(() => {
     async function getUserData() {
       try {
