@@ -7,6 +7,11 @@ import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import ShoppingBasketRoundedIcon from "@mui/icons-material/ShoppingBasketRounded";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={800} ref={ref} variant="filled" {...props} />;
 });
@@ -16,10 +21,16 @@ export default function SingleProduct() {
   const [itemInCart, setCartNumber] = useState(0);
   const { productName } = useParams();
   const [open, setOpen] = useState(false);
+  const [openalert, setOpenAlert] = React.useState(false);
+
+  const handleAlertClose = () => {
+    navigate("/login");
+    setOpenAlert(false);
+  };
+
   const [form, setForm] = useState({
     EuserName: "",
   });
-  console.log(productName);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -29,7 +40,7 @@ export default function SingleProduct() {
   };
   async function addToCart() {
     console.log(form);
-    if (form !== "") {
+    try {
       const res = await fetch(`/addcart/${productName}`, {
         method: "POST",
         headers: {
@@ -42,8 +53,8 @@ export default function SingleProduct() {
         setCartNumber(data.products.length);
         setOpen(true);
       }
-    } else {
-      navigate("/login");
+    } catch (err) {
+      setOpenAlert(true);
     }
   }
 
@@ -83,9 +94,29 @@ export default function SingleProduct() {
     ifUser();
     getProducts();
   }, [productsdetial.length, itemInCart]);
-  return productsdetial ? (
+  return productsdetial.productPrice ? (
     <>
       {" "}
+      <Dialog
+        open={openalert}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Product Not added in cart"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <center>
+           {"Please Login to add products in cart"}
+            </center>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleAlertClose}>Login</Button>
+        </DialogActions>
+      </Dialog>
       <Stack spacing={2} sx={{ width: "100%" }}>
         <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
           <Alert
@@ -115,14 +146,26 @@ export default function SingleProduct() {
               fontWeight: "100",
               textDecorationLine: "line-through",
               display: "inline-block",
-              paddingLeft: "20px",
+              paddingLeft: "10px",
             }}
           >
             Rs. {productsdetial.productPrice + 200}
           </p>
           <br />
-          <p>Category : {productsdetial.productCategory} </p>
-          <p>Description : {productsdetial.productLongDes} </p>
+          <p>
+            {" "}
+            <strong> Category :</strong> {productsdetial.productCategory}{" "}
+          </p>
+          <p>
+            {" "}
+            <strong> Description :</strong>
+            {productsdetial.productLongDes}{" "}
+          </p>
+          <p>
+            {" "}
+            <strong> Comapany :</strong>
+            {productsdetial.productCompany}{" "}
+          </p>
           <Button
             variant="contained"
             color="secondary"

@@ -20,9 +20,9 @@ export default function ProductCard(props) {
         />
         <CardContent>
           <Typography gutterBottom variant="h6" component="div">
-            {props.productName}
+            {props.productName.slice(0, 36)}...
           </Typography>
-          {props.productDes} <br />
+          {props.productDes.slice(0, 30)}... <br />
           <p
             style={{
               color: "red",
@@ -37,7 +37,7 @@ export default function ProductCard(props) {
             style={{
               color: "green",
               display: "inline-block",
-              paddingLeft: "10px",
+              paddingLeft: "5px",
             }}
           >
             {" "}
