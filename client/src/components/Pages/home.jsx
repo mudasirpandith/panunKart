@@ -58,7 +58,7 @@ export default function Home() {
       <br />
       <TopNav />
       <br />
-      <Carousel /> <br />
+      <Carousel /> <br /> <br />
       <Box sx={{ flexGrow: 1 }}>
         <Grid container columnGap={4} rowGap={2}>
           {allproducts.map((product, index) => {
