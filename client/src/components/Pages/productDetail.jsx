@@ -1,4 +1,4 @@
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../partials/navbar";
@@ -14,7 +14,6 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Skeleton from "@mui/material/Skeleton";
 
-
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={800} ref={ref} variant="filled" {...props} />;
 });
@@ -25,12 +24,22 @@ export default function SingleProduct() {
   const { productName } = useParams();
   const [open, setOpen] = useState(false);
   const [openalert, setOpenAlert] = React.useState(false);
-
+  const [review, setReview] = useState({
+    RuserName: "",
+    reviewData: "",
+    RproductName: "",
+  });
+  review.RproductName = productName;
   const handleAlertClose = () => {
     navigate("/login");
     setOpenAlert(false);
   };
-
+  function handleChange(e) {
+    const { name, value } = e.target;
+    return setReview((prev) => {
+      return { ...prev, [name]: value };
+    });
+  }
   const [form, setForm] = useState({
     EuserName: "",
   });
@@ -41,6 +50,25 @@ export default function SingleProduct() {
     }
     setOpen(false);
   };
+
+  async function onsubmit(e) {
+    e.preventDefault();
+    window.alert(review.RproductName);
+    const res = await fetch("/addreview", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(review),
+    });
+
+    if (res.status === 200) {
+      setReview({
+        reviewData: "",
+      });
+      getProducts();
+    }
+  }
   async function addToCart() {
     console.log(form);
     try {
@@ -54,6 +82,7 @@ export default function SingleProduct() {
       const data = await res.json();
       if (res.status === 200) {
         setCartNumber(data.products.length);
+
         setOpen(true);
       }
     } catch (err) {
@@ -61,6 +90,18 @@ export default function SingleProduct() {
     }
   }
 
+  async function getProducts() {
+    const res = await fetch(`/getSingleproduct/${productName}`, {
+      method: "GET",
+    });
+    const data = await res.json();
+    if (res.status === 200) {
+      setProducts(data[0]);
+      setReview({ RproductName: data[0].productName });
+    } else {
+      window.alert(data);
+    }
+  }
   useEffect(() => {
     async function ifUser() {
       try {
@@ -75,6 +116,7 @@ export default function SingleProduct() {
         if (res.status === 200) {
           setCartNumber(data.products.length);
           setForm({ EuserName: data.userName });
+          setReview({ RuserName: data.userName });
         }
       } catch (err) {
         setCartNumber(0);
@@ -82,18 +124,6 @@ export default function SingleProduct() {
       }
     }
 
-    async function getProducts() {
-      const res = await fetch(`/getSingleproduct/${productName}`, {
-        method: "GET",
-      });
-      const data = await res.json();
-      if (res.status === 200) {
-        setProducts(data[0]);
-        console.log(productsdetial);
-      } else {
-        window.alert(data);
-      }
-    }
     ifUser();
     getProducts();
   }, [productsdetial.length, itemInCart]);
@@ -175,6 +205,50 @@ export default function SingleProduct() {
           >
             Add To Cart
           </Button>
+        </Grid>
+      </Grid>
+      <Grid container columnGap={2}>
+        <Grid xs={12} md={8} xl={6}>
+          <h3>Reviews</h3>
+          {productsdetial.reviews.map((re) => {
+            return (
+              <>
+                <div style={{ border: "solid black 1px", paddingLeft: "10px" }}>
+                  <p>
+                    <strong>{re.review.userName}</strong>
+                    <br />
+                    {re.review.rev}
+                  </p>
+                </div>{" "}
+                <br />
+              </>
+            );
+          })}
+        </Grid>
+        <Grid xs={12} md={4} xl={4}>
+          <form method="POST" onSubmit={onsubmit}>
+            <TextField
+              id="outlined-basic"
+              name="RuserName"
+              label="Username"
+              disabled
+              value={review.RuserName}
+              variant="outlined"
+            />{" "}
+            <br /> <br />
+            <TextField
+              id="outlined-basic"
+              onChange={handleChange}
+              name="reviewData"
+              label="Review"
+              value={review.reviewData}
+              variant="outlined"
+            />{" "}
+            <br /> <br />
+            <Button variant="contained" color="success" type="submit">
+              Submit review
+            </Button>
+          </form>
         </Grid>
       </Grid>
     </>

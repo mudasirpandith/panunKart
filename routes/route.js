@@ -120,6 +120,28 @@ Route.post("/add/product", async (req, res) => {
     res.status(400).json({ message: "Product adding Failed" });
   }
 });
+
+Route.post("/addreview", async (req, res) => {
+  const { RuserName, reviewData, RproductName } = req.body;
+  console.log(RuserName + " " + reviewData + " " + RproductName);
+  const productFound = await products.findOne({ productName: RproductName });
+  if (productFound) {
+    productFound.reviews = productFound.reviews.concat({
+      review: {
+        userName: RuserName,
+        rev: reviewData,
+      },
+    });
+    const added = await productFound.save();
+    if (added) {
+      res.status(200).json({ message: "Review added" });
+    } else {
+      res.status(400).json({ message: "Review not added" });
+    }
+  } else {
+    res.status(400).json({ message: "Error" });
+  }
+});
 Route.get("/logout", (req, res) => {
   res.clearCookie();
 });
