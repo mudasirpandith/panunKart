@@ -12,6 +12,9 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Skeleton from "@mui/material/Skeleton";
+
+
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={800} ref={ref} variant="filled" {...props} />;
 });
@@ -97,7 +100,6 @@ export default function SingleProduct() {
   return productsdetial.productPrice ? (
     <>
       {" "}
-      
       <Dialog
         open={openalert}
         onClose={handleClose}
@@ -179,9 +181,14 @@ export default function SingleProduct() {
   ) : (
     <div>
       <Navbar items="0" />
-      <center>
-        <h1>Loading please wait</h1>
-      </center>
+      <Stack spacing={1}>
+        <Skeleton variant="rectangular" width={window.innerWidth} height={10} />
+        <Skeleton
+          variant="rectangular"
+          width={window.innerWidth}
+          height={window.innerHeight}
+        />
+      </Stack>
     </div>
   );
 }

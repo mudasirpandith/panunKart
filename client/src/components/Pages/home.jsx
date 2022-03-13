@@ -10,6 +10,8 @@ import { Box } from "@mui/system";
 import Navbar from "../partials/navbar";
 import TopNav from "../partials/topNav";
 import Footer from "../partials/footer";
+import Skeleton from "@mui/material/Skeleton";
+import Stack from "@mui/material/Stack";
 require("./home.css");
 
 export default function Home() {
@@ -50,7 +52,7 @@ export default function Home() {
     ifUser();
     getProducts();
   }, [allproducts.length, itemInCart]);
-  return (
+  return allproducts.length ? (
     <>
       <Navbar items={itemInCart} />
       <br />
@@ -78,6 +80,23 @@ export default function Home() {
           })}
         </Grid>
       </Box>
+      <Footer />
+    </>
+  ) : (
+    <>
+      <Navbar items={itemInCart} />
+      <br />
+      <TopNav />
+      <br />
+      <Carousel /> <br />
+      <Stack spacing={1}>
+        <Skeleton variant="rectangular" width={window.innerWidth} height={10} />
+        <Skeleton
+          variant="rectangular"
+          width={window.innerWidth}
+          height={window.innerHeight}
+        />
+      </Stack>
       <Footer />
     </>
   );

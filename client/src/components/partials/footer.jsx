@@ -95,7 +95,7 @@ export default function Footer() {
               <p>Facebook</p>
               <p>Twitter</p>
               <p>Youtube</p>
-              <p>FAQ</p>
+            
             </Grid>
           </Grid>
           <Grid xs={12} xl={12}>
