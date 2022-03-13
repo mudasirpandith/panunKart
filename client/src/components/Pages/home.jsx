@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../partials/allproductsCard";
 import Product1 from "../images/product1.jpg";
-
+import Carousel from "../partials/homeCarousl";
 import { Navigate, NavLink } from "react-router-dom";
 import Product2 from "../images/product2.jpg";
 import Product3 from "../images/product3.jpg";
@@ -56,6 +56,7 @@ export default function Home() {
   return (
     <>
       <Navbar items={itemInCart} />
+      <Carousel />
       <Box sx={{ flexGrow: 1 }}>
         <Grid container columnGap={2}>
           {allproducts.map((product, index) => {
@@ -65,8 +66,8 @@ export default function Home() {
                 <Grid xs={12} xl={2}>
                   <NavLink className="navlink" to={url}>
                     <ProductCard
-                      productName={product.productName}
-                      productDes={product.productDes}
+                      productName={product.productName.slice(0,27)}
+                      productDes={product.productDes.slice(0,27)}
                       productPrice={product.productPrice}
                       productImage={list[index]}
                      

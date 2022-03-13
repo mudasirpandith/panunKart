@@ -54,15 +54,18 @@ export default function Cart() {
             .slice()
             .reverse()
             .map((prod, index) => {
+              var url='/productDetail/'+prod.product.productName;
               return (
                 <>
                   <Grid xs={12} xl={2}>
-                    <ProductsInCartCard
-                      productName={prod.product.productName}
-                      productDes={prod.product.productDes}
-                      productPrice={prod.product.productPrice}
-                      productImage={list[index]}
-                    />{" "}
+                    <NavLink className="navlink" to={url}>
+                      <ProductsInCartCard
+                        productName={prod.product.productName.slice(0, 27)}
+                        productDes={prod.product.productDes.slice(0, 27)}
+                        productPrice={prod.product.productPrice}
+                        productImage={list[index]}
+                      />{" "}
+                    </NavLink>
                   </Grid>
                 </>
               );

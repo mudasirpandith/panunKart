@@ -97,6 +97,7 @@ export default function SingleProduct() {
   return productsdetial.productPrice ? (
     <>
       {" "}
+      
       <Dialog
         open={openalert}
         onClose={handleClose}
@@ -104,13 +105,11 @@ export default function SingleProduct() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Product Not added in cart"}
+          <h4 style={{ color: "red" }}>Product Not added in cart</h4>
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <center>
-           {"Please Login to add products in cart"}
-            </center>
+            <center>{"Please Login to add products in cart"}</center>
           </DialogContentText>
         </DialogContent>
         <DialogActions>

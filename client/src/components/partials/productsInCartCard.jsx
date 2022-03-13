@@ -21,10 +21,10 @@ export default function ProductsInCartCard(props) {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {props.productName}
+            {props.productName}...
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {props.productDes} <br />
+            {props.productDes}... <br />
             <p
               style={{
                 color: "red",
