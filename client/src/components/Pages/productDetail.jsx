@@ -1,6 +1,6 @@
 import { Button, Grid, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import Navbar from "../partials/navbar";
 import product1 from "../images/product1.jpg";
 import Stack from "@mui/material/Stack";
@@ -13,7 +13,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Skeleton from "@mui/material/Skeleton";
-
+import LockIcon from "@mui/icons-material/Lock";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={800} ref={ref} variant="filled" {...props} />;
 });
@@ -28,6 +28,7 @@ export default function SingleProduct() {
     RuserName: "",
     reviewData: "",
     RproductName: "",
+    Rdate: "",
   });
   review.RproductName = productName;
   const handleAlertClose = () => {
@@ -53,13 +54,21 @@ export default function SingleProduct() {
 
   async function onsubmit(e) {
     e.preventDefault();
-    window.alert(review.RproductName);
+    const body = {
+      RuserName: form.EuserName,
+      reviewData: review.reviewData,
+      RproductName: review.RproductName,
+      Rdate: `${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`,
+    };
+    if (review.RuserName === "") {
+      window.alert("Refresh the page to review this product");
+    }
     const res = await fetch("/addreview", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(review),
+      body: JSON.stringify(body),
     });
 
     if (res.status === 200) {
@@ -207,49 +216,78 @@ export default function SingleProduct() {
           </Button>
         </Grid>
       </Grid>
+      <br /> <br /> <br />
       <Grid container columnGap={2}>
         <Grid xs={12} md={8} xl={6}>
           <h3>Reviews</h3>
-          {productsdetial.reviews.map((re) => {
-            return (
-              <>
-                <div style={{ border: "solid black 1px", paddingLeft: "10px" }}>
-                  <p>
-                    <strong>{re.review.userName}</strong>
-                    <br />
-                    {re.review.rev}
-                  </p>
-                </div>{" "}
-                <br />
-              </>
-            );
-          })}
+          {productsdetial.reviews.length > 0 ? (
+            productsdetial.reviews
+              .slice()
+              .reverse()
+              .map((re) => {
+                return (
+                  <>
+                    <div
+                      style={{
+                        paddingLeft: "10px",
+                        display: "inline-block",
+
+                        padding: "10px",
+                        backgroundColor: "lightgray",
+                        margin: "3px 20px ",
+                      }}
+                    >
+                      <p>
+                        <strong>{re.review.userName}</strong>
+                        <br />
+                        {re.review.rev}
+                        <br />
+                        <span style={{ fontSize: "10px" }}>
+                          {re.review.date}
+                        </span>
+                      </p>
+                    </div>{" "}
+                    <br /> <br />
+                  </>
+                );
+              })
+          ) : (
+            <h3>No review Posted Yet</h3>
+          )}
         </Grid>
-        <Grid xs={12} md={4} xl={4}>
-          <form method="POST" onSubmit={onsubmit}>
-            <TextField
-              id="outlined-basic"
-              name="RuserName"
-              label="Username"
-              disabled
-              value={review.RuserName}
-              variant="outlined"
-            />{" "}
-            <br /> <br />
-            <TextField
-              id="outlined-basic"
-              onChange={handleChange}
-              name="reviewData"
-              label="Review"
-              value={review.reviewData}
-              variant="outlined"
-            />{" "}
-            <br /> <br />
-            <Button variant="contained" color="success" type="submit">
-              Submit review
-            </Button>
-          </form>
-        </Grid>
+        {itemInCart !== 0 ? (
+          <Grid xs={12} md={4} xl={4}>
+            <h3>Add review</h3>
+            <form method="POST" onSubmit={onsubmit}>
+              <br />
+              <TextField
+                id="outlined-basic"
+                onChange={handleChange}
+                name="reviewData"
+                required
+                label="Review"
+                value={review.reviewData}
+                variant="outlined"
+              />{" "}
+              <br /> <br />
+              <Button variant="contained" color="success" type="submit">
+                Submit review
+              </Button>
+            </form>
+          </Grid>
+        ) : (
+          <center>
+            <NavLink className="navlink" to="/login">
+              <Button
+                variant="contained"
+                color="error"
+                startIcon={<LockIcon />}
+              >
+                Login To Review This Product{" "}
+              </Button>
+            </NavLink>
+          </center>
+        )}
       </Grid>
     </>
   ) : (

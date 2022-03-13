@@ -14,6 +14,7 @@ const productSchema = new mongoose.Schema({
       review: {
         userName: String,
         rev: String,
+        date: String,
       },
     },
   ],

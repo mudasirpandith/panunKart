@@ -76,8 +76,11 @@ export default function Register() {
           <Button type="submit" variant="contained" color="success">
             {" "}
             Register
-          </Button> <br />
-          <NavLink to="/login">Login</NavLink>
+          </Button>{" "}
+          <br />
+          <NavLink className="navlink" to="/login">
+            Login
+          </NavLink>
         </form>
       </div>
     </>

@@ -67,8 +67,8 @@ export default function Login() {
             Log In
           </Button>{" "}
           <br />
-          <NavLink to="/register">Create account</NavLink>
-          <NavLink to="/">
+          <NavLink className="navlink" to="/register">Create account</NavLink>
+          <NavLink className="navlink" to="/">
             <Button endIcon={<CloseIcon />}>
               {" "}
               <p>Cancel</p>{" "}

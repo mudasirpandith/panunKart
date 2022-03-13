@@ -122,14 +122,15 @@ Route.post("/add/product", async (req, res) => {
 });
 
 Route.post("/addreview", async (req, res) => {
-  const { RuserName, reviewData, RproductName } = req.body;
-  console.log(RuserName + " " + reviewData + " " + RproductName);
+  const { RuserName, reviewData, RproductName, Rdate } = req.body;
+  console.log(RuserName + " " + reviewData + " " + RproductName + " " + Rdate);
   const productFound = await products.findOne({ productName: RproductName });
-  if (productFound) {
+  if (productFound && RuserName != "") {
     productFound.reviews = productFound.reviews.concat({
       review: {
         userName: RuserName,
         rev: reviewData,
+        date: Rdate,
       },
     });
     const added = await productFound.save();
