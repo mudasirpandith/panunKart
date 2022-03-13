@@ -1,6 +1,6 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 
-import {NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Button, Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import AppBar from "@mui/material/AppBar";
@@ -38,13 +38,15 @@ export default function Navbar(props) {
             </IconButton>
 
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              KaeshurKart
+              <NavLink style={{ color: "white" }} className="navlink" to="/">
+                KaeshurKart
+              </NavLink>
             </Typography>
 
             <div>
-              <NavLink to="/cart">
-                <Badge badgeContent={props.items}>
-                  <ShoppingCartSharpIcon color="danger" />
+              <NavLink className="navlink" to="/cart">
+                <Badge badgeContent={props.items} color="success">
+                  <ShoppingCartSharpIcon htmlColor="white" />
                 </Badge>
               </NavLink>
             </div>
@@ -64,10 +66,6 @@ export default function Navbar(props) {
           <h3>KaehsurKart</h3>
           <NavLink className="navlink" to="/cart">
             <Button startIcon={<ShoppingCartIcon />}>Cart</Button>
-          </NavLink>{" "}
-          <br />
-          <NavLink className="navlink" to="/">
-            home
           </NavLink>{" "}
           <br />
           <NavLink className="navlink" to="/login">
