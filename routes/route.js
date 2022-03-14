@@ -2,6 +2,12 @@ const express = require("express");
 const products = require("../Schema/product");
 const Route = express.Router();
 const user = require("../Schema/user");
+const shortid = require("shortid");
+const Razorpay = require("razorpay");
+const razorpay = new Razorpay({
+  key_id: "rzp_test_XHtwvNxWUEJOoH",
+  key_secret: "AG4MpCDEbbA2J5Ksctsc8hPE",
+});
 require("../db/conn");
 const authenticate = require("../middleware/auth");
 Route.get("/user", async (req, res) => {
@@ -143,6 +149,57 @@ Route.post("/addreview", async (req, res) => {
     res.status(400).json({ message: "Error" });
   }
 });
+
+Route.post("/razorpay", async (req, res) => {
+  const { Checkamount, CheckoutUser } = req.body;
+  console.log(Checkamount + " " + CheckoutUser);
+  const payment_capture = 1;
+  const amount = Checkamount;
+  const currency = "INR";
+
+  const options = {
+    amount: amount * 100,
+    currency,
+    receipt: shortid.generate(),
+    payment_capture,
+  };
+
+  try {
+    const response = await razorpay.orders.create(options);
+    console.log(response);
+    var today = new Date();
+
+    var date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
+    if (response) {
+      const foundUser = await user.findOne({ userName: CheckoutUser });
+      if (foundUser) {
+        foundUser.myorders = foundUser.myorders.concat({
+          myorder: {
+            CheckoutPrice: Checkamount,
+            receipt: response.receipt,
+            orderId: response.id,
+            status: response.status,
+            date: date,
+          },
+        });
+        foundUser.save();
+      }
+    }
+    res.json({
+      id: response.id,
+      currency: response.currency,
+      amount: response.amount,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 Route.get("/logout", (req, res) => {
   res.clearCookie();
 });

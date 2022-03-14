@@ -28,6 +28,17 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
+  myorders: [
+    {
+      myorder: {
+        CheckoutPrice: Number,
+        receipt: String,
+        orderId: String,
+        status: String,
+        date: String,
+      },
+    },
+  ],
 });
 userSchema.methods.generateAuthToken = async function () {
   try {

@@ -33,7 +33,7 @@ export default function ProductsInCartCard(props) {
                 display: "inline-block",
               }}
             >
-              Rs. {props.productPrice + 200}
+              ₹ {props.productPrice + 200}
             </p>
             <p
               style={{
@@ -43,7 +43,7 @@ export default function ProductsInCartCard(props) {
               }}
             >
               {" "}
-              <strong> Rs. {props.productPrice} </strong>
+              <strong> ₹ {props.productPrice} </strong>
               only
             </p>
           </Typography>{" "}

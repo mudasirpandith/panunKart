@@ -14,13 +14,14 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Skeleton from "@mui/material/Skeleton";
 import LockIcon from "@mui/icons-material/Lock";
+import displayRazorpay from "./checkOut";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={800} ref={ref} variant="filled" {...props} />;
 });
 export default function SingleProduct() {
   const navigate = useNavigate();
   const [productsdetial, setProducts] = useState([]);
-  const [itemInCart, setCartNumber] = useState(0);
+  const [itemInCart, setCartNumber] = useState(-1);
   const { productName } = useParams();
   const [open, setOpen] = useState(false);
   const [openalert, setOpenAlert] = React.useState(false);
@@ -255,7 +256,7 @@ export default function SingleProduct() {
             <h3>No review Posted Yet</h3>
           )}
         </Grid>
-        {itemInCart !== 0 ? (
+        {itemInCart !== -1 ? (
           <Grid xs={12} md={4} xl={4}>
             <h3>Add review</h3>
             <form method="POST" onSubmit={onsubmit}>
