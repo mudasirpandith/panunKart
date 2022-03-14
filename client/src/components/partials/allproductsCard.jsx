@@ -3,22 +3,19 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Button, CardActionArea } from "@mui/material";
-import ShoppingBasketRoundedIcon from "@mui/icons-material/ShoppingBasketRounded";
+import { CardActionArea } from "@mui/material";
 export default function ProductCard(props) {
-  function handleClick() {
-    props.onClick(props.productName);
-  }
   return (
-    <Card style={{ height: "200" }}>
+    <Card>
       <CardActionArea>
         <CardMedia
           component="img"
-          height="140"
-          image={props.productImage}
-          alt="green iguana"
+          height="200px"
+          width="auto"
+          image={`https://firebasestorage.googleapis.com/v0/b/uploadfilemudasir.appspot.com/o/${props.productImage}?alt=media&token=10bb6189-756f-42b4-9036-5ff783d5bf8b`}
+          alt="produc Image"
         />
-        <CardContent>
+        <CardContent style={{ height: "150px" }}>
           <Typography gutterBottom variant="h6" component="div">
             {props.productName.slice(0, 36)}...
           </Typography>

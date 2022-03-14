@@ -2,7 +2,6 @@ import { Button, Grid, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import Navbar from "../partials/navbar";
-import product1 from "../images/product1.jpg";
 import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
@@ -14,7 +13,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Skeleton from "@mui/material/Skeleton";
 import LockIcon from "@mui/icons-material/Lock";
-import displayRazorpay from "./checkOut";
+
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={800} ref={ref} variant="filled" {...props} />;
 });
@@ -25,6 +24,7 @@ export default function SingleProduct() {
   const { productName } = useParams();
   const [open, setOpen] = useState(false);
   const [openalert, setOpenAlert] = React.useState(false);
+  const [checkAuth, setAuth] = useState(false);
   const [review, setReview] = useState({
     RuserName: "",
     reviewData: "",
@@ -127,10 +127,12 @@ export default function SingleProduct() {
           setCartNumber(data.products.length);
           setForm({ EuserName: data.userName });
           setReview({ RuserName: data.userName });
+          setAuth(true);
         }
       } catch (err) {
         setCartNumber(0);
         setForm("");
+        setAuth(false);
       }
     }
 
@@ -170,9 +172,14 @@ export default function SingleProduct() {
         </Snackbar>
       </Stack>
       <Navbar items={itemInCart} />
+      <br /> <br />
       <Grid container columnGap={2}>
-        <Grid xs={12} md={5} xl={5}>
-          <img style={{ width: "100%" }} src={product1} alt="productImage" />
+        <Grid style={{ textAlign: "center" }} xs={12} md={5} xl={5}>
+          <img
+            style={{ width: "360px", height: "auto", textAlign: "center" }}
+            src={`https://firebasestorage.googleapis.com/v0/b/uploadfilemudasir.appspot.com/o/${productsdetial.productImage}?alt=media&token=10bb6189-756f-42b4-9036-5ff783d5bf8b`}
+            alt="productImage"
+          />
         </Grid>
         <Grid xs={12} md={5} xl={5}>
           <h1>{productsdetial.productName}</h1>
@@ -256,7 +263,7 @@ export default function SingleProduct() {
             <h3>No review Posted Yet</h3>
           )}
         </Grid>
-        {itemInCart !== -1 ? (
+        {checkAuth ? (
           <Grid xs={12} md={4} xl={4}>
             <h3>Add review</h3>
             <form method="POST" onSubmit={onsubmit}>

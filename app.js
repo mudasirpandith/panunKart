@@ -9,8 +9,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const shortid = require("shortid");
 const Razorpay = require("razorpay");
 const razorpay = new Razorpay({
-  key_id: "rzp_live_JV58VAtTjUgLc9",
-  key_secret: "Y5Aj0Na6ruZGg4VGREgQZ9cq",
+  key_id: process.env.RAZORKEY,
+  key_secret: process.env.RAZORSECRET,
 });
 // parse application/json
 app.use(bodyParser.json());

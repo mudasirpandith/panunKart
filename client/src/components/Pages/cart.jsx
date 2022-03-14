@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProductsInCartCard from "../partials/productsInCartCard";
-import Product1 from "../images/product1.jpg";
-import Product2 from "../images/product2.jpg";
-import Product3 from "../images/product3.jpg";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button, Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import LockIcon from "@mui/icons-material/Lock";
@@ -13,7 +10,6 @@ require("./cart.css");
 export default function Cart() {
   const navigate = useNavigate();
 
-  var list = [Product1, Product2, Product3];
   const [userData, setUserData] = useState([]);
   var tot = 0;
   async function displayRazorpay() {
@@ -92,19 +88,16 @@ export default function Cart() {
               {userData.products
                 .slice()
                 .reverse()
-                .map((prod, index) => {
-                  var url = "/productDetail/" + prod.product.productName;
+                .map((prod) => {
                   return (
                     <>
                       <Grid xs={12} xl={2}>
-                        <NavLink className="navlink" to={url}>
-                          <ProductsInCartCard
-                            productName={prod.product.productName.slice(0, 27)}
-                            productDes={prod.product.productDes.slice(0, 27)}
-                            productPrice={prod.product.productPrice}
-                            productImage={list[index]}
-                          />{" "}
-                        </NavLink>
+                        <ProductsInCartCard
+                          productName={prod.product.productName.slice(0, 27)}
+                          productDes={prod.product.productDes.slice(0, 27)}
+                          productPrice={prod.product.productPrice}
+                          productImage={prod.product.productImage}
+                        />{" "}
                       </Grid>
                     </>
                   );

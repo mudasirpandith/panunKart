@@ -16,7 +16,7 @@ export default function ProductsInCartCard(props) {
           component="img"
           loading="lazy"
           height="140"
-          image={props.productImage}
+          image={`https://firebasestorage.googleapis.com/v0/b/uploadfilemudasir.appspot.com/o/${props.productImage}?alt=media&token=10bb6189-756f-42b4-9036-5ff783d5bf8b`}
           alt="green iguana"
         />
         <CardContent>
